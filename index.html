@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy Birthday!</title>
+<style>
+:root{--bg1:#fff0f6;--bg2:#ffd9ec;--tx:#4a1d3d;--card:#ffffffcc;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#1b1030;--bg2:#3a1750;--tx:#ffe9f3;--card:#ffffff18}}
+:root[data-theme="dark"]{--bg1:#1b1030;--bg2:#3a1750;--tx:#ffe9f3;--card:#ffffff18}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(160deg,var(--bg1),var(--bg2));color:var(--tx);font-family:Georgia,'Times New Roman',serif;text-align:center;overflow-x:hidden}
+.wrap{max-width:480px;margin:0 auto;padding:24px 16px;position:relative;z-index:2}
+h1{font-size:2rem;margin:12px 0 4px}
+p{margin:6px 0}
+button,input{font:inherit;padding:12px 22px;border-radius:999px;border:0;margin:6px}
+button{background:#ff4f9a;color:#fff;font-weight:bold;cursor:pointer;box-shadow:0 4px 14px #ff4f9a66}
+input{background:var(--card);color:var(--tx);border:1px solid #ff4f9a88;text-align:center}
+.hide{display:none}
+svg{width:min(320px,85vw);height:auto;display:block;margin:10px auto}
+.flame{transform-origin:50% 100%;transform-box:fill-box;animation:fl .25s infinite alternate;transition:opacity .6s,transform .6s}
+@keyframes fl{from{transform:scale(1,1) rotate(-3deg)}to{transform:scale(.9,1.12) rotate(3deg)}}
+.out .flame{opacity:0;transform:scale(0)}
+.smoke{opacity:0}
+.out .smoke{animation:sm 2s forwards}
+@keyframes sm{0%{opacity:.7;transform:translateY(0)}100%{opacity:0;transform:translateY(-30px)}}
+#msg{opacity:0;transition:opacity 1.2s;font-size:1.15rem;line-height:1.5;background:var(--card);border-radius:16px;padding:14px;margin-top:10px}
+#msg.show{opacity:1}
+.b{position:fixed;bottom:-140px;width:56px;height:70px;border-radius:50% 50% 48% 48%;z-index:1;animation:up linear forwards}
+.b::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:50px;background:var(--tx);opacity:.5}
+@keyframes up{to{transform:translateY(-130vh) translateX(var(--dx))}}
+.c{position:fixed;top:-20px;width:9px;height:14px;z-index:3;animation:dn linear forwards}
+@keyframes dn{to{transform:translateY(110vh) rotate(720deg)}}
+</style></head><body>
+<div class="wrap">
+ <div id="setup">
+  <h1>🎁 A surprise awaits</h1>
+  <p>Whose birthday is it?</p>
+  <input id="nm" placeholder="Type a name" maxlength="20" autocomplete="off">
+  <br><button id="go">Start the surprise</button>
+ </div>
+ <div id="stage" class="hide">
+  <h1 id="title">Happy Birthday!</h1>
+  <p id="sub">Make a wish, then blow out the candles 🕯️</p>
+  <svg id="cake" viewBox="0 0 320 300" aria-label="Birthday cake">
+   <ellipse cx="160" cy="278" rx="140" ry="14" fill="#00000022"/>
+   <rect x="40" y="190" width="240" height="85" rx="12" fill="#8a4b2b"/>
+   <rect x="60" y="130" width="200" height="70" rx="12" fill="#ff8fc0"/>
+   <path d="M60 150q15 22 30 0t30 0 30 0 30 0 30 0 30 0 20 12v-20H60z" fill="#fff"/>
+   <path d="M40 205q20 24 40 0t40 0 40 0 40 0 40 0 40 0v-12H40z" fill="#fff"/>
+   <circle cx="100" cy="240" r="7" fill="#ff4f9a"/><circle cx="160" cy="240" r="7" fill="#ffd23f"/><circle cx="220" cy="240" r="7" fill="#4fc3ff"/>
+   <rect x="108" y="92" width="10" height="40" rx="3" fill="#4fc3ff"/>
+   <rect x="155" y="92" width="10" height="40" rx="3" fill="#ffd23f"/>
+   <rect x="202" y="92" width="10" height="40" rx="3" fill="#8be28b"/>
+   <g class="flame"><path d="M113 90c-9-12-2-22 0-30 2 8 9 18 0 30z" fill="#ffb300"/><path d="M113 88c-4-6-1-11 0-15 1 4 4 9 0 15z" fill="#fff3a0"/></g>
+   <g class="flame" style="animation-delay:.1s"><path d="M160 90c-9-12-2-22 0-30 2 8 9 18 0 30z" fill="#ffb300"/><path d="M160 88c-4-6-1-11 0-15 1 4 4 9 0 15z" fill="#fff3a0"/></g>
+   <g class="flame" style="animation-delay:.2s"><path d="M207 90c-9-12-2-22 0-30 2 8 9 18 0 30z" fill="#ffb300"/><path d="M207 88c-4-6-1-11 0-15 1 4 4 9 0 15z" fill="#fff3a0"/></g>
+   <g class="smoke" fill="none" stroke="#999" stroke-width="2"><path d="M113 85q-6-12 0-24"/><path d="M160 85q-6-12 0-24"/><path d="M207 85q-6-12 0-24"/></g>
+  </svg>
+  <button id="blow">💨 Blow the candles</button>
+  <div id="msg"></div>
+  <button id="again" class="hide">🎈 More balloons</button>
+ </div>
+</div>
+<script>
+var cols=['#ff4f9a','#ffd23f','#4fc3ff','#8be28b','#b58cff','#ff8a4f'];
+function $(i){return document.getElementById(i)}
+function balloons(n){for(var i=0;i<n;i++){var b=document.createElement('div');b.className='b';
+ b.style.left=Math.random()*92+'vw';b.style.background=cols[i%cols.length];
+ b.style.setProperty('--dx',(Math.random()*60-30)+'px');
+ b.style.animationDuration=(6+Math.random()*5)+'s';b.style.animationDelay=(Math.random()*1.5)+'s';
+ document.body.appendChild(b);setTimeout(function(x){x.remove()},14000,b)}}
+function confetti(n){for(var i=0;i<n;i++){var c=document.createElement('div');c.className='c';
+ c.style.left=Math.random()*100+'vw';c.style.background=cols[i%cols.length];
+ c.style.animationDuration=(2.5+Math.random()*3)+'s';c.style.animationDelay=(Math.random())+'s';
+ document.body.appendChild(c);setTimeout(function(x){x.remove()},7000,c)}}
+function start(name){
+ $('setup').classList.add('hide');$('stage').classList.remove('hide');
+ $('title').textContent=name?('Happy Birthday, '+name+'! 🎂'):'Happy Birthday! 🎂';
+ balloons(6);
+}
+function esc(s){return s.replace(/[^A-Za-z0-9 \-]/g,'')}
+$('go').onclick=function(){var n=esc($('nm').value.trim());try{location.hash=n.replace(/ /g,'-')}catch(e){}start(n)};
+$('nm').onkeydown=function(e){if(e.key==='Enter')$('go').click()};
+$('blow').onclick=function(){
+ $('cake').classList.add('out');$('blow').classList.add('hide');$('sub').textContent='Your wish is on its way ✨';
+ var n=esc(decodeURIComponent((location.hash||'').slice(1)).replace(/-/g,' '));
+ $('msg').textContent='Wishing you a day full of joy, laughter and everything you love. May this year bring you happiness, good health and dreams coming true. You are truly special! 💖';
+ setTimeout(function(){$('msg').classList.add('show')},400);
+ confetti(90);balloons(14);$('again').classList.remove('hide');
+};
+$('again').onclick=function(){balloons(14);confetti(60)};
+var h=decodeURIComponent((location.hash||'').slice(1)).replace(/-/g,' ');
+if(h)start(esc(h));
+</script></body></html>
